@@ -2,7 +2,9 @@ package Servlets;
 
 import Entidades.Producto;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "CarritoServlet", urlPatterns = {"/CarritoServlet"})
 public class CarritoServlet extends HttpServlet {
-    HashMap listaProductos = new HashMap();
+    //HashMap listaProductos = new HashMap();
+    List<Entidades.Producto> listaProductos = new ArrayList();
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -24,6 +28,15 @@ public class CarritoServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        for(Producto p : listaProductos){
+            if( p.getNombre().equalsIgnoreCase(request.getParameter("nombre"))){
+                p.setCantidad(p.getCantidad()+1);
+            }
+        }
+        
+        request.getSession().setAttribute("listaProductos", listaProductos);
+        
         RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/CarritoCompra.jsp");
         rd.forward(request, response);
     }
@@ -55,11 +68,17 @@ public class CarritoServlet extends HttpServlet {
         p5.setNombre("MEDION");
         p5.setPrecio(650.00);
         
-        listaProductos.put("art1", p1);
-        listaProductos.put("art2", p2);
-        listaProductos.put("art3", p3);
-        listaProductos.put("art4", p4);
-        listaProductos.put("art5", p5);
+//        listaProductos.put("art1", p1);
+//        listaProductos.put("art2", p2);
+//        listaProductos.put("art3", p3);
+//        listaProductos.put("art4", p4);
+//        listaProductos.put("art5", p5);
+
+    listaProductos.add(p1);
+    listaProductos.add(p2);
+    listaProductos.add(p3);
+    listaProductos.add(p4);
+    listaProductos.add(p5);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
