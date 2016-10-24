@@ -1,8 +1,6 @@
 package Servlets;
 
-import Entidades.Producto;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,11 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "CarritoServlet", urlPatterns = {"/CarritoServlet"})
-public class CarritoServlet extends HttpServlet {
-    //HashMap listaProductos = new HashMap();
-    List<Entidades.Producto> listaProductos = new ArrayList();
-    
+@WebServlet(name = "FinalizarCompra", urlPatterns = {"/FinalizarCompra"})
+public class FinalizarCompra extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -27,57 +22,14 @@ public class CarritoServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        for(Producto p : listaProductos){
-            if( p.getNombre().equalsIgnoreCase(request.getParameter("lista"))){
-                p.setCantidad(p.getCantidad()+1);
-            }
+        Integer precioFinal = 0;
+        List<Entidades.Producto> listaProductos = (List) request.getSession().getAttribute("listaProductos");
+        for ( Entidades.Producto p : listaProductos){
+            precioFinal += p.getCantidad() * p.getPrecio();         
         }
-        
-        request.getSession().setAttribute("listaProductos", listaProductos);
-        
-        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/CarritoCompra.jsp");
+        request.getSession().setAttribute("precio", precioFinal);
+        RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Factura.jsp");
         rd.forward(request, response);
-    }
-
-    @Override
-    public void init() throws ServletException {
-        Producto p1 = new Producto();
-        p1.setId(1);
-        p1.setNombre("ASUS");
-        p1.setPrecio(500);
-        
-        Producto p2 = new Producto();
-        p2.setId(2);
-        p2.setNombre("ACER");
-        p2.setPrecio(450);
-        
-        Producto p3 = new Producto();
-        p3.setId(3);
-        p3.setNombre("Toshiba");
-        p3.setPrecio(750);
-        
-        Producto p4 = new Producto();
-        p4.setId(4);
-        p4.setNombre("HP");
-        p4.setPrecio(550);
-        
-        Producto p5 = new Producto();
-        p5.setId(5);
-        p5.setNombre("MEDION");
-        p5.setPrecio(650);
-        
-//        listaProductos.put("art1", p1);
-//        listaProductos.put("art2", p2);
-//        listaProductos.put("art3", p3);
-//        listaProductos.put("art4", p4);
-//        listaProductos.put("art5", p5);
-
-    listaProductos.add(p1);
-    listaProductos.add(p2);
-    listaProductos.add(p3);
-    listaProductos.add(p4);
-    listaProductos.add(p5);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

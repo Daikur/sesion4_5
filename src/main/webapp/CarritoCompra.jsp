@@ -5,8 +5,6 @@
 --%>
 
 <%@page import="java.util.List"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <jsp:useBean id="producto" scope="session" class="Entidades.Producto" />
@@ -17,21 +15,35 @@
     </head>
     <body>
         <form action="CarritoServlet" method="POST">
-            <select name="lista" multiple="Multiple">
+            <select name="lista">
                 <%
                     List<Entidades.Producto> lista = (List) session.getAttribute("listaProductos");
-
                     for (Entidades.Producto p : lista) {
                         String nombre = p.getNombre();
-                        Integer cantidad = p.getCantidad();
                 %>
                 <option><%=nombre%></option>
                 <%
-                    }
+                    }%>
 
-                %>
             </select>
-            <input type="submit" name="Añadir al Carrito" value="" />
+            <br>
+            <br>
+            <select>
+                <%
+                    for (Entidades.Producto p : lista) {
+                        if (p.getCantidad() != 0) {
+                            String nombre = p.getNombre();
+                            Integer cantidad = p.getCantidad();
+                %>
+                <option><%=nombre%> - <%=cantidad%></option>
+                <% }
+                    }%>
+            </select>
+            <input type="submit" value="Añadir" />
+            <br>
+        </form>
+        <form action="FinalizarCompra" method="POST" >
+            <input type="submit" value="Total" />
         </form>
     </body>
 </html>

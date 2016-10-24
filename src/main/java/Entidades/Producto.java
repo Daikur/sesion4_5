@@ -3,9 +3,9 @@ package Entidades;
 public class Producto {
 
     private Integer id;
-    private Integer cantidad;
+    private Integer cantidad = 0;
     private String nombre;
-    private Double precio;
+    private Integer precio;
 
     public Integer getId() {
         return id;
@@ -31,11 +31,11 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public Double getPrecio() {
+    public Integer getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(Integer precio) {
         this.precio = precio;
     }
     
