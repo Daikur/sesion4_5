@@ -1,6 +1,7 @@
 package Servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,10 +25,16 @@ public class FinalizarCompra extends HttpServlet {
             throws ServletException, IOException {
         Integer precioFinal = 0;
         List<Entidades.Producto> listaProductos = (List) request.getSession().getAttribute("listaProductos");
+        List<Entidades.Producto> listaCompra = new ArrayList();
         for ( Entidades.Producto p : listaProductos){
-            precioFinal += p.getCantidad() * p.getPrecio();         
+           if(p.getCantidad() != 0){
+               listaCompra.add(p);
+               precioFinal += p.getCantidad() * p.getPrecio();
+           }          
         }
-        request.getSession().setAttribute("precio", precioFinal);
+        
+        request.getSession().setAttribute("listaCompra", listaCompra);
+        request.getSession().setAttribute("precioFinal", precioFinal);
         RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/Factura.jsp");
         rd.forward(request, response);
     }

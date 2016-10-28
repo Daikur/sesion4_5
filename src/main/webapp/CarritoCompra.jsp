@@ -4,6 +4,7 @@
     Author     : orteg
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,11 +25,12 @@
                 <option><%=nombre%></option>
                 <%
                     }%>
-
             </select>
+            <input type="submit" value="Añadir" />
+
             <br>
             <br>
-            <select>
+            <select name="carrito">
                 <%
                     for (Entidades.Producto p : lista) {
                         if (p.getCantidad() != 0) {
@@ -39,11 +41,8 @@
                 <% }
                     }%>
             </select>
-            <input type="submit" value="Añadir" />
             <br>
-        </form>
-        <form action="FinalizarCompra" method="POST" >
-            <input type="submit" value="Total" />
+            <a href="FinalizarCompra">Finalizar Compra</a>
         </form>
     </body>
 </html>

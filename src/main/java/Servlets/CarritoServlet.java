@@ -65,13 +65,7 @@ public class CarritoServlet extends HttpServlet {
         Producto p5 = new Producto();
         p5.setId(5);
         p5.setNombre("MEDION");
-        p5.setPrecio(650);
-        
-//        listaProductos.put("art1", p1);
-//        listaProductos.put("art2", p2);
-//        listaProductos.put("art3", p3);
-//        listaProductos.put("art4", p4);
-//        listaProductos.put("art5", p5);
+        p5.setPrecio(650);      
 
     listaProductos.add(p1);
     listaProductos.add(p2);
